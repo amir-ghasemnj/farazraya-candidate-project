@@ -34,7 +34,7 @@ final class ResponseUtil
      * @return JsonResponse
      */
     public static function factory(int         $code = 200,
-                                   int         $status = 0,
+                                   int $status = 200,
                                    string|null $message = null,
                                    mixed       $data = null,
                                    bool        $renderData = false): \Illuminate\Http\JsonResponse
