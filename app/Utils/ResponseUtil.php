@@ -39,7 +39,7 @@ final class ResponseUtil
                                    mixed       $data = null,
                                    bool        $renderData = false): \Illuminate\Http\JsonResponse
     {
-        return response()->json([
+        return response(status: $status)->json([
             'code' => $code,
             'status' => $status,
             'message' => $message,
