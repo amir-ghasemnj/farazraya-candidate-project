@@ -40,6 +40,7 @@ also the complete assignments available in `/docs/assignments.docx`.
 
 Before running tests, create a database with any name you like, and then set its connection in the `/phpunit.xml` file.
 then run `php artisan test` to testing the project.
+
 ---
 
 ### Response Structure
