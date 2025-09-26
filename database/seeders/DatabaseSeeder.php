@@ -14,8 +14,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // allow truncating
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;'); // disallow truncating
+
+        // truncating
         DB::table('room_reserves')->truncate();
+        DB::table('personal_access_tokens')->truncate();
 
         // seeding
         $this->call([
