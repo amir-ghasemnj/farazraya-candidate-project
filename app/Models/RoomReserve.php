@@ -12,6 +12,9 @@ class RoomReserve extends Model
 
     protected $table = 'room_reserves';
     protected $guarded = [];
+    protected $casts = [
+        'expires_at' => 'datetime:Y-m-d H:i:s',
+    ];
 
     // ----------------------
     // relations
