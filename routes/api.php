@@ -18,4 +18,9 @@ Route::prefix('auth')->group(function () {
 # room routes
 Route::prefix('rooms')->group(function () {
     Route::get('index', [RoomController::class, 'index'])->name('room.index');
+
+    # reserve route
+    Route::middleware('auth:sanctum')->group(function () {
+        Route::post('reserve', [RoomController::class, 'reserve'])->name('room.reserve');
+    });
 });

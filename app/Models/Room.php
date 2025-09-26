@@ -7,6 +7,7 @@ use Database\Factories\RoomFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Room extends Model
 {
@@ -35,6 +36,16 @@ class Room extends Model
     // ----------------------
     // relations
     // ----------------------
+
+    /**
+     * return room reserves relation
+     *
+     * @return HasMany
+     */
+    public function reserves(): HasMany
+    {
+        return $this->hasMany(RoomReserve::class, 'room_id', 'id');
+    }
 
     // ----------------------
     // implementations

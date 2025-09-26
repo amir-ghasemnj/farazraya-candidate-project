@@ -15,8 +15,8 @@ final class UserLogic extends BaseLogic
     {
         $user = $this->userRepository->findByEmail($email);
         if (!$user || !Hash::check($password, $user->password)) {
-            return $this->makeResult()->setMessage(__('errors.user.auth.invalid_credentials.message'))->setStatusCode
-            (__('errors.user.auth.invalid_credentials.code'));
+            return $this->makeResult()->setMessage(__('errors.user.auth.invalid_credentials.message'))
+                        ->setStatusCode(__('errors.user.auth.invalid_credentials.code'));
         }
         return $this->makeResult()->setMessage(__('messages.user.auth.login_success'))->setData($user->createToken('api-token')->plainTextToken);
     }

@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Traits\HasFormattedDate;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -47,5 +48,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    // ----------------------
+    // relations
+    // ----------------------
+
+    /**
+     * return reserves
+     *
+     * @return HasMany
+     */
+    public function reserves(): HasMany
+    {
+        return $this->hasMany(RoomReserve::class, 'room_id', 'id');
     }
 }
