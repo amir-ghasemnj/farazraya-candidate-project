@@ -24,4 +24,11 @@ interface RoomRepositoryInterface
      * @throws
      */
     public function reserve(int $userId, int $roomId, int $capacity): RoomReserve|null;
+
+    /**
+     * releasing expired reserves
+     *
+     * @return void
+     */
+    public function releaseExpiredReserves(): void;
 }

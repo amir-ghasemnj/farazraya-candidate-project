@@ -14,6 +14,7 @@ class RoomReserve extends Model
     protected $guarded = [];
     protected $casts = [
         'expires_at' => 'datetime:Y-m-d H:i:s',
+        'is_active' => 'boolean',
     ];
 
     // ----------------------

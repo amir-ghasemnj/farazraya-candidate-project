@@ -13,7 +13,7 @@ final class RoomRepository implements RoomRepositoryInterface
     /**
      * repository dependency injector
      */
-    public function __construct(protected Room $model)
+    public function __construct(protected Room $model, protected RoomReserve $roomReserve)
     {
     }
 
@@ -41,15 +41,30 @@ final class RoomRepository implements RoomRepositoryInterface
 
         // decrementing room capacity
         $room->decrement('capacity', abs($capacity));
-        $reserve = RoomReserve::query()
-                              ->create([
-                                  'room_id' => $roomId,
-                                  'user_id' => $userId,
-                                  'capacity' => $capacity,
-                                  'expires_at' => now()->addMinutes(2),
-                              ]);
+        $reserve = $this->roomReserve->query()
+                                     ->create([
+                                         'room_id' => $roomId,
+                                         'user_id' => $userId,
+                                         'capacity' => $capacity,
+                                         'expires_at' => now()->addMinutes(2),
+                                     ]);
         DB::commit();
 
         return $reserve;
+    }
+
+    public function releaseExpiredReserves(): void
+    {
+        DB::beginTransaction();
+        $this->roomReserve->query()
+                          ->where('expires_at', '<', now())
+                          ->where('is_active', true)
+                          ->chunk(50, function ($reserves) {
+                              foreach ($reserves as $reserve) {
+                                  $reserve->room->increment('capacity', $reserve->capacity);
+                                  $reserve->update(['is_active' => false]);
+                              }
+                          });
+        DB::commit();
     }
 }
