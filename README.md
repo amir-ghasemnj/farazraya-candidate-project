@@ -1,61 +1,77 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## FarazRaya Candidate Project
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+### Abstraction
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The goal of this project is implementing an API for temporary hotel room reservation with below assignments in short:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Assignments
 
-## Learning Laravel
+- using laravel framework.
+- create a seeder for inserting fake rooms with random capacity.
+- simple login for a static user with default credentials: `test@example.com` as username and `12345678` as password.
+- user can reserve with sending `room_id` and `capacity`.
+- prevent overselling.
+- simple api route for showing rooms with capacities.
+- each reservation is valid for only 2 minutes, after which it is automatically canceled and the capacity is released.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+also the complete assignments available in `/docs/assignments.docx`.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+---
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Run
 
-## Laravel Sponsors
+1. after cloning project, run `composer install --ignore-platform-reqs` to install all prerequisite packages.
+2. copy `.env.example` to `.env`.
+3. run `php artisan key:generate` to creating app key.
+4. run `php artisan migrate --seed` to creating database/tables and inserting fake data.
+5. import postman collection from `/docs/*.postman_collection.json`. this collection provided by some examples to help
+   you makes better interaction.
+6. run `php artisan serve` for serving project on laravel default port: `8000`
+7. run `php artisan schedule:work` in new terminal tab for create a worker instance to handle `ReleaseExpiredReserves`
+   job every 30sec.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+### Test
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Before running tests, create a database with any name you like, and then set its connection in the `/phpunit.xml` file.
+then run `php artisan test` to testing the project.
+---
 
-## Contributing
+### Response Structure
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+the common structure for any response of api routes:
 
-## Code of Conduct
+```json
+{
+  "code": 200,
+  "status": 200,
+  "message": "You are logged in successfully.",
+  "payload": "2|y9zPF9vts8XnhwjCNA8rE1u3YAf78gdwuqVHbKgn5364a6b2"
+}
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+`code`: a traceable identifier for all handled logical errors in the logic layer. Please see `/app/lang/errors.php` to get
+more detailed and understandable information.
 
-## Security Vulnerabilities
+`status`: corresponds to the HTTP status code in the response header (e.g., 422, 403, 200, ...) as well as additional
+logical codes generated by the logic layer (e.g., 10000, 12000).
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+`message`: a meaningful message. for `200` responses may be `null`.
 
-## License
+`payload`: the data returned by the API, which varies depending on the route. In case of a `ValidationException`, it
+contains the data of the fields that failed validation.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+an example for logic errors:
+```json
+{
+    "code": 100000,
+    "status": 403,
+    "message": "maybe email/password was incorrect.",
+    "payload": null
+}
+```
