@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Traits\HasFormattedDate;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class RoomReserve extends Model
 {
+    use HasFormattedDate;
+
     protected $table = 'room_reserves';
     protected $guarded = [];
 
