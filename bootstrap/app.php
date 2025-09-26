@@ -6,13 +6,33 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        api: __DIR__ . '/../routes/api.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // un-authenticated
+        $exceptions->render(function (
+            \Illuminate\Auth\AuthenticationException $exception,
+            \Illuminate\Http\Request                 $request
+        ) {
+            return \App\Utils\ResponseUtil::factory(401, 401, __('errors.unauthenticated'));
+        });
+
+        // un-authorized
+        $exceptions->render(function (\Illuminate\Auth\Access\AuthorizationException $exception,
+                                      \Illuminate\Http\Request                       $request) {
+            return \App\Utils\ResponseUtil::factory(401, 401, __('errors.unauthorized'));
+        });
+
+        // unexcepted errors
+        $exceptions->render(function (\Throwable               $exception,
+                                      \Illuminate\Http\Request $request) {
+            if (!env('APP_DEBUG'))
+                return \App\Utils\ResponseUtil::factory(500, 500, __('errors.unexpected'));
+        });
     })->create();
