@@ -1,0 +1,261 @@
+{
+  "info": {
+    "_postman_id": "94c6fc44-970f-4faa-8bbb-5e9a1f5d179d",
+    "name": "FarazRaya Candidate Api",
+    "description": "a hiring candidate project",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "3622466"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"12345678\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "login",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"email\": \"test@example.com\",\r\n    \"password\": \"12345678\"\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/auth/login",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [
+                {
+                  "expires": "Invalid Date",
+                  "domain": "",
+                  "path": ""
+                }
+              ],
+              "body": "{\n    \"code\": 200,\n    \"status\": 200,\n    \"message\": \"You are logged in successfully.\",\n    \"payload\": \"2|y9zPF9vts8XnhwjCNA8rE1u3YAf78gdwuqVHbKgn5364a6b2\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rooms",
+      "item": [
+        {
+          "name": "index",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/rooms/index?page=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rooms",
+                "index"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "index",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/rooms/index?page=1",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "rooms",
+                    "index"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ]
+                }
+              },
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                }
+              ],
+              "cookie": [
+                {
+                  "expires": "Invalid Date",
+                  "domain": "",
+                  "path": ""
+                }
+              ],
+              "body": "{\n    \"code\": 200,\n    \"status\": 200,\n    \"message\": null,\n    \"payload\": {\n        \"rooms\": [\n            {\n                \"id\": 2,\n                \"name\": \"neque\",\n                \"capacity\": 10,\n                \"created_at\": \"2025-09-26 10:33:32\",\n                \"updated_at\": \"2025-09-26 10:33:32\"\n            },\n            {\n                \"id\": 10,\n                \"name\": \"natus\",\n                \"capacity\": 10,\n                \"created_at\": \"2025-09-26 10:33:32\",\n                \"updated_at\": \"2025-09-26 10:33:32\"\n            },\n            {\n                \"id\": 12,\n                \"name\": \"et\",\n                \"capacity\": 9,\n                \"created_at\": \"2025-09-26 10:33:32\",\n                \"updated_at\": \"2025-09-26 10:33:32\"\n            },\n            {\n                \"id\": 13,\n                \"name\": \"atque\",\n                \"capacity\": 9,\n                \"created_at\": \"2025-09-26 10:33:32\",\n                \"updated_at\": \"2025-09-26 10:33:32\"\n            },\n            {\n                \"id\": 6,\n                \"name\": \"alias\",\n                \"capacity\": 8,\n                \"created_at\": \"2025-09-26 10:33:32\",\n                \"updated_at\": \"2025-09-26 10:33:32\"\n            }\n        ],\n        \"pagination\": {\n            \"total\": 20,\n            \"per_page\": 5,\n            \"current_page\": 1,\n            \"last_page\": 4,\n            \"from\": 1,\n            \"to\": 5\n        }\n    }\n}"
+            }
+          ]
+        },
+        {
+          "name": "reserve",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{token}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"room_id\": 17,\r\n    \"capacity\": 3\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/rooms/reserve",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "rooms",
+                "reserve"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "reserve",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "{{token}}",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"room_id\": 17,\r\n    \"capacity\": 3\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/rooms/reserve",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "rooms",
+                    "reserve"
+                  ]
+                }
+              },
+              "_postman_previewlanguage": "",
+              "header": [],
+              "cookie": [],
+              "body": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": ""
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}
