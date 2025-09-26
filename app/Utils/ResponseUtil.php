@@ -39,12 +39,12 @@ final class ResponseUtil
                                    mixed       $data = null,
                                    bool        $renderData = false): \Illuminate\Http\JsonResponse
     {
-        return response(status: $status)->json([
+        return response()->json([
             'code' => $code,
             'status' => $status,
             'message' => $message,
             'payload' => $renderData ? $data : null,
-        ]);
+        ], $status);
     }
 
     public static function fromValidationError(Validator $validator): \Illuminate\Http\JsonResponse
