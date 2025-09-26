@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('user_id')->constrained('users');
             $table->id()->unsigned();
             $table->tinyInteger('capacity')->unsigned();
-            $table->timestamp('expires_at');
+            $table->timestamp('expires_at')->nullable()->default(null);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
